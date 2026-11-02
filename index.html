@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login & Sign Up</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    padding: 32px;
+  }
+  h2 { text-align: center; margin-bottom: 8px; color: #333; }
+  p.sub { text-align: center; color: #777; margin-bottom: 24px; font-size: 14px; }
+  .tabs { display: flex; margin-bottom: 24px; border-bottom: 1px solid #eee; }
+  .tab {
+    flex: 1; padding: 10px; text-align: center; cursor: pointer;
+    color: #888; border-bottom: 2px solid transparent; transition: .2s;
+  }
+  .tab.active { color: #667eea; border-bottom-color: #667eea; font-weight: 600; }
+  .form { display: none; }
+  .form.active { display: block; }
+  label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+  input {
+    width: 100%; padding: 10px 12px; margin-bottom: 16px;
+    border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+  }
+  input:focus { outline: none; border-color: #667eea; }
+  button {
+    width: 100%; padding: 12px; background: #667eea; color: #fff;
+    border: none; border-radius: 8px; font-size: 15px; cursor: pointer;
+    transition: .2s;
+  }
+  button:hover { background: #5568d3; }
+  .msg { text-align: center; margin-top: 12px; font-size: 13px; min-height: 18px; }
+  .msg.error { color: #e53935; }
+  .msg.success { color: #43a047; }
+  .pw-wrap { position: relative; }
+  .pw-wrap input { padding-right: 42px; }
+  .pw-toggle {
+    position: absolute; right: 10px; top: 40%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: #888;
+    padding: 4px; display: flex; align-items: center; width: auto;
+  }
+  .pw-toggle:hover { color: #667eea; }
+  .pw-toggle svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Welcome</h2>
+    <p class="sub">Login or create an account</p>
+    <div class="tabs">
+      <div class="tab active" data-tab="login">Login</div>
+      <div class="tab" data-tab="signup">Sign Up</div>
+    </div>
+
+    <form id="login" class="form active" action="login.php" method="post">
+      <label>Email</label>
+      <input type="email" name="email" required />
+      <label>Password</label>
+      <div class="pw-wrap">
+        <input type="password" name="password" required />
+        <button type="button" class="pw-toggle" aria-label="Show password">
+          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <button type="submit">Login</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+
+    <form id="signup" class="form" action="register.php" method="post">
+      <label>Name</label>
+      <input type="text" name="name" required />
+      <label>Email</label>
+      <input type="email" name="email" required />
+      <label>Password</label>
+      <div class="pw-wrap">
+        <input type="password" name="password" required minlength="6" />
+        <button type="button" class="pw-toggle" aria-label="Show password">
+          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <label>Confirm Password</label>
+      <div class="pw-wrap">
+        <input type="password" name="confirm" required />
+        <button type="button" class="pw-toggle" aria-label="Show password">
+          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <button type="submit">Sign Up</button>
+      <div class="msg" id="signupMsg"></div>
+    </form>
+  </div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+    document.getElementById(t.dataset.tab).classList.add('active');
+  }));
+
+  const params = new URLSearchParams(location.search);
+  const err = params.get('err');
+  const msgs = {
+    fill: 'Fill all fields',
+    nomatch: 'Passwords do not match',
+    short: 'Password too short',
+    exists: 'Email already registered',
+    fail: 'Registration failed',
+    invalid: 'Invalid email or password'
+  };
+  if (err) {
+    const el = (err === 'invalid' || err === 'fill') ? document.getElementById('loginMsg') : document.getElementById('signupMsg');
+    if (el) { el.textContent = msgs[err] || 'Error'; el.className = 'msg error'; }
+  }
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement.querySelector('input');
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.querySelector('.eye').style.display = show ? 'none' : '';
+      btn.querySelector('.eye-off').style.display = show ? '' : 'none';
+      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    });
+  });
+</script>
+</body>
+</html>
