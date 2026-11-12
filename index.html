@@ -3,120 +3,303 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Login & Sign Up</title>
+<title>Login & Sign Up - Support.ly</title>
 <style>
+  :root {
+    --color-primary: #667eea;
+    --color-primary-hover: #5568d3;
+    --color-primary-light: rgba(102,126,234,0.1);
+    --color-secondary: #2c3e50;
+    --color-bg: #1a252f;
+    --color-bg-elevated: #243447;
+    --color-surface: #2d3f54;
+    --color-border: rgba(255,255,255,0.08);
+    --color-text: #e8eaf0;
+    --color-text-muted: #8b9cb0;
+    --color-error: #e53935;
+    --color-error-light: rgba(229,57,53,0.1);
+    --color-success: #43a047;
+    --color-success-light: rgba(67,160,71,0.1);
+    --color-warning: #fdd835;
+    --color-warning-light: rgba(253,216,53,0.1);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+    --shadow-xl: 0 16px 48px rgba(0,0,0,0.4);
+    --transition: 150ms ease;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: var(--font-sans);
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: var(--space-6);
+    position: relative;
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  .brand-top { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); font-size: 26px; font-weight: 800; color: #e8eaf0; letter-spacing: -0.5px; text-align: center; opacity: 0.9; }
   .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
     width: 100%;
-    max-width: 400px;
-    padding: 32px;
+    max-width: 420px;
+    padding: var(--space-8);
+    position: relative;
+    z-index: 1;
   }
-  h2 { text-align: center; margin-bottom: 8px; color: #333; }
-  p.sub { text-align: center; color: #777; margin-bottom: 24px; font-size: 14px; }
-  .tabs { display: flex; margin-bottom: 24px; border-bottom: 1px solid #eee; }
+  h2 { text-align: center; margin-bottom: var(--space-2); color: var(--color-text); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  p.sub { text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-6); font-size: 14px; line-height: 1.5; }
+  .tabs { display: flex; margin-bottom: var(--space-6); border-bottom: 1px solid var(--color-border); }
   .tab {
-    flex: 1; padding: 10px; text-align: center; cursor: pointer;
-    color: #888; border-bottom: 2px solid transparent; transition: .2s;
+    flex: 1; padding: var(--space-3) var(--space-4); text-align: center; cursor: pointer;
+    color: var(--color-text-muted); border-bottom: 2px solid transparent; transition: var(--transition);
+    font-size: 14px; font-weight: 600; background: transparent; border-top: none; border-left: none; border-right: none;
   }
-  .tab.active { color: #667eea; border-bottom-color: #667eea; font-weight: 600; }
-  .form { display: none; }
+  .tab:hover { color: var(--color-text); }
+  .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+  .form { display: none; animation: fadeIn 200ms ease; }
   .form.active { display: block; }
-  label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .form-group { margin-bottom: var(--space-4); }
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+  .input-wrapper { position: relative; }
   input {
-    width: 100%; padding: 10px 12px; margin-bottom: 16px;
-    border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+    width: 100%; padding: var(--space-3) var(--space-4); font-size: 14px;
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); color: var(--color-text);
+    transition: var(--transition); outline: none;
   }
-  input:focus { outline: none; border-color: #667eea; }
-  button {
-    width: 100%; padding: 12px; background: #667eea; color: #fff;
-    border: none; border-radius: 8px; font-size: 15px; cursor: pointer;
-    transition: .2s;
-  }
-  button:hover { background: #5568d3; }
-  .msg { text-align: center; margin-top: 12px; font-size: 13px; min-height: 18px; }
-  .msg.error { color: #e53935; }
-  .msg.success { color: #43a047; }
+  input::placeholder { color: var(--color-text-muted); opacity: 0.6; }
+  input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-light); }
+  input:disabled { background: var(--color-bg); color: var(--color-text-muted); cursor: not-allowed; }
   .pw-wrap { position: relative; }
-  .pw-wrap input { padding-right: 42px; }
+  .pw-wrap input { padding-right: 48px; }
   .pw-toggle {
-    position: absolute; right: 10px; top: 40%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: #888;
-    padding: 4px; display: flex; align-items: center; width: auto;
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none; cursor: pointer; color: var(--color-text-muted);
+    padding: 6px; display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    transition: var(--transition);
   }
-  .pw-toggle:hover { color: #667eea; }
+  .pw-toggle:hover { background: var(--color-primary-light); color: var(--color-primary); }
+  .pw-toggle svg { width: 20px; height: 20px; }
+  button.btn {
+    width: 100%; padding: var(--space-3) var(--space-4); font-size: 15px; font-weight: 600;
+    background: var(--color-primary); color: #fff; border: none;
+    border-radius: var(--radius-md); cursor: pointer; transition: var(--transition);
+  }
+  button.btn:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+  button.btn:active { transform: translateY(0); }
+  button.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: transparent; color: var(--color-text); border: 1px solid var(--color-border);
+  }
+  .btn-secondary:hover { background: var(--color-primary-light); border-color: var(--color-primary); color: var(--color-primary); }
+  .btn-danger { background: var(--color-error); }
+  .btn-danger:hover { background: #c62828; }
+  .msg { text-align: center; margin-top: var(--space-3); font-size: 13px; min-height: 18px; }
+  .msg.error { color: var(--color-error); background: var(--color-error-light); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); }
+  .msg.success { color: var(--color-success); background: var(--color-success-light); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); }
+  .link { text-align: center; margin-top: var(--space-4); font-size: 13px; }
+  .link a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
+  .link a:hover { text-decoration: underline; }
+
+  /* Forgot Password Modal */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 1000; padding: var(--space-6); }
+  .modal.open { display: flex; }
+  .modal-content { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-xl); width: 100%; max-width: 420px; padding: var(--space-8); box-shadow: var(--shadow-xl); position: relative; animation: modalIn 250ms ease; }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(16px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .modal-close { position: absolute; top: 12px; right: 16px; background: transparent; border: none; font-size: 26px; cursor: pointer; color: var(--color-text-muted); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: var(--transition); }
+  .modal-close:hover { background: var(--color-primary-light); color: var(--color-primary); }
+  .forgot-step { display: none; }
+  .forgot-step.active { display: block; animation: fadeIn 200ms ease; }
+  .forgot-step h3 { text-align: center; margin-bottom: var(--space-2); color: var(--color-text); font-size: 22px; font-weight: 700; }
+  .forgot-step p { text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-6); font-size: 14px; }
+  .forgot-step .form-group { margin-bottom: var(--space-4); }
+  .forgot-step label { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+  .forgot-step input { width: 100%; padding: var(--space-3) var(--space-4); margin-bottom: 0; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: 14px; color: var(--color-text); transition: var(--transition); }
+  .forgot-step input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-light); }
+  .forgot-step button.btn { margin-top: var(--space-2); }
+  .code-wrap { display: flex; gap: 8px; justify-content: center; margin: var(--space-5) 0; }
+  .code-box { width: 50px; height: 58px; text-align: center; font-size: 28px; font-weight: 700; background: var(--color-bg); border: 2px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text); transition: var(--transition); }
+  .code-box:focus { border-color: var(--color-primary); outline: none; box-shadow: 0 0 0 3px var(--color-primary-light); }
+  .hint { text-align: center; font-size: 12px; color: var(--color-text-muted); margin-top: var(--space-3); margin-bottom: var(--space-3); }
+  .link { text-align: center; margin-top: var(--space-5); font-size: 13px; }
+  .link a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
+  .link a:hover { text-decoration: underline; }
+
   .pw-toggle svg { width: 20px; height: 20px; }
 </style>
 </head>
 <body>
+  <div class="brand-top">Support.ly</div>
   <div class="card">
     <h2>Welcome</h2>
-    <p class="sub">Login or create an account</p>
+    <p class="sub">Sign in to your Support.ly account</p>
     <div class="tabs">
       <div class="tab active" data-tab="login">Login</div>
       <div class="tab" data-tab="signup">Sign Up</div>
     </div>
 
     <form id="login" class="form active" action="login.php" method="post">
-      <label>Email</label>
-      <input type="email" name="email" required />
-      <label>Password</label>
-      <div class="pw-wrap">
-        <input type="password" name="password" required />
-        <button type="button" class="pw-toggle" aria-label="Show password">
-          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-        </button>
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" name="email" required autocomplete="email" />
       </div>
-      <button type="submit">Login</button>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <div class="pw-wrap input-wrapper">
+          <input type="password" id="loginPassword" name="password" required autocomplete="current-password" />
+          <button type="button" class="pw-toggle" aria-label="Show password">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn">Sign In</button>
       <div class="msg" id="loginMsg"></div>
+      <div class="link"><button type="button" onclick="openForgotModal()" class="btn-secondary" style="width:auto;padding:0;font:inherit;background:none;border:none;color:var(--color-primary);text-decoration:underline;">Forgot password?</button></div>
     </form>
 
     <form id="signup" class="form" action="register.php" method="post">
-      <label>Name</label>
-      <input type="text" name="name" required />
-      <label>Email</label>
-      <input type="email" name="email" required />
-      <label>Password</label>
-      <div class="pw-wrap">
-        <input type="password" name="password" required minlength="6" />
-        <button type="button" class="pw-toggle" aria-label="Show password">
-          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-        </button>
+      <div class="form-group">
+        <label for="signupName">Name</label>
+        <input type="text" id="signupName" name="name" required autocomplete="name" />
       </div>
-      <label>Confirm Password</label>
-      <div class="pw-wrap">
-        <input type="password" name="confirm" required />
-        <button type="button" class="pw-toggle" aria-label="Show password">
-          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-        </button>
+      <div class="form-group">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" name="email" required autocomplete="email" />
       </div>
-      <button type="submit">Sign Up</button>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <div class="pw-wrap input-wrapper">
+          <input type="password" id="signupPassword" name="password" required minlength="6" autocomplete="new-password" />
+          <button type="button" class="pw-toggle" aria-label="Show password">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signupConfirm">Confirm Password</label>
+        <div class="pw-wrap input-wrapper">
+          <input type="password" id="signupConfirm" name="confirm" required autocomplete="new-password" />
+          <button type="button" class="pw-toggle" aria-label="Show password">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0 11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn">Create Account</button>
       <div class="msg" id="signupMsg"></div>
     </form>
   </div>
 
+  <!-- Forgot Password Modal -->
+  <div id="forgotModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeForgotModal()" aria-label="Close">&times;</button>
+
+      <!-- Step 1: Email -->
+      <div id="forgotStep1" class="forgot-step active">
+        <h3>Forgot Password</h3>
+        <p>Enter your email to receive a reset code</p>
+        <form action="forgot.php" method="post">
+          <div class="form-group">
+            <label for="forgotEmail">Email</label>
+            <input type="email" id="forgotEmail" name="email" required autocomplete="email" />
+          </div>
+          <button type="submit" class="btn">Send Reset Code</button>
+        </form>
+        <div class="link">Remember your password? <a href="#" onclick="closeForgotModal(); openTab('login');">Sign in</a></div>
+      </div>
+
+      <!-- Step 2: Code -->
+      <div id="forgotStep2" class="forgot-step">
+        <h3>Enter Reset Code</h3>
+        <p>A 6-digit code was sent to your email</p>
+        <div class="msg error" id="forgotStep2Msg" style="display:none;"></div>
+        <form action="reset_code.php" method="post">
+          <div class="code-wrap" id="codeWrap">
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="0" />
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="1" />
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="2" />
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="3" />
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="4" />
+            <input type="text" maxlength="1" name="code[]" class="code-box" autocomplete="off" data-index="5" />
+            <input type="hidden" name="code_value" id="codeValue" />
+          </div>
+          <div class="hint">Enter the 6 digit code</div>
+          <button type="submit" class="btn">Verify Code</button>
+        </form>
+        <div class="link"><a href="#" onclick="showForgotStep(1);">Back</a></div>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="forgotStep3" class="forgot-step">
+        <h3>Reset Password</h3>
+        <p>Create your new password</p>
+        <div class="msg error" id="forgotStep3Msg" style="display:none;"></div>
+        <form action="reset_password.php" method="post">
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <div class="pw-wrap input-wrapper">
+              <input type="password" id="newPassword" name="password" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" aria-label="Show password">
+                <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0 11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="pw-wrap input-wrapper">
+              <input type="password" id="confirmPassword" name="confirm" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" aria-label="Show password">
+                <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0 11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn">Reset Password</button>
+        </form>
+      </div>
+
+      <!-- Success -->
+      <div id="forgotSuccess" class="forgot-step">
+        <h3>Password Reset!</h3>
+        <p class="msg success">Your password has been reset successfully.</p>
+        <button onclick="closeForgotModal(); openTab('login');" class="btn" style="margin-top: var(--space-2);">Go to Login</button>
+      </div>
+    </div>
+  </div>
+
 <script>
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
-    document.getElementById(t.dataset.tab).classList.add('active');
-  }));
+  const tabsContainer = document.querySelector('.tabs');
+  const forms = document.querySelectorAll('.form');
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab[data-tab="' + name + '"]').classList.add('active');
+    forms.forEach(f => f.classList.remove('active'));
+    document.getElementById(name).classList.add('active');
+  }
+  document.querySelector('.tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (tab) switchTab(tab.dataset.tab);
+  });
 
   const params = new URLSearchParams(location.search);
   const err = params.get('err');
@@ -128,10 +311,57 @@
     fail: 'Registration failed',
     invalid: 'Invalid email or password'
   };
-  if (err) {
-    const el = (err === 'invalid' || err === 'fill') ? document.getElementById('loginMsg') : document.getElementById('signupMsg');
-    if (el) { el.textContent = msgs[err] || 'Error'; el.className = 'msg error'; }
+  const signupErrors = ['nomatch', 'short', 'exists', 'fail'];
+
+  function openTab(name) {
+    switchTab(name);
   }
+
+  if (err) {
+    const isSignup = signupErrors.includes(err);
+    const el = isSignup ? document.getElementById('signupMsg') : document.getElementById('loginMsg');
+    if (el) { el.textContent = msgs[err] || 'Error'; el.className = 'msg error'; }
+    openTab(isSignup ? 'signup' : 'login');
+  }
+
+  const forgotStep = params.get('forgot');
+  if (forgotStep) {
+    openForgotModal();
+    if (forgotStep === 'step2') showForgotStep(2);
+    else if (forgotStep === 'step3') showForgotStep(3);
+    else if (forgotStep === 'success') showForgotStep('success');
+    else showForgotStep(1);
+  }
+
+  if (err && forgotStep) {
+    if (forgotStep === 'step2' && err === 'code') {
+      const el = document.getElementById('forgotStep2Msg');
+      if (el) { el.textContent = 'Please enter a valid 6-digit code.'; el.style.display = 'block'; }
+    }
+    if (forgotStep === 'step3') {
+      const el = document.getElementById('forgotStep3Msg');
+      const m = { fill: 'Fill all fields', short: 'Password too short', nomatch: 'Passwords do not match' };
+      if (el && m[err]) { el.textContent = m[err]; el.style.display = 'block'; showForgotStep(3); }
+    }
+  }
+
+  function openForgotModal() {
+    document.getElementById('forgotModal').classList.add('open');
+    showForgotStep(1);
+  }
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('open');
+    showForgotStep(1);
+  }
+  function showForgotStep(step) {
+    document.querySelectorAll('.forgot-step').forEach(s => s.classList.remove('active'));
+    if (step === 'success') {
+      document.getElementById('forgotSuccess').classList.add('active');
+    } else {
+      document.getElementById('forgotStep' + step).classList.add('active');
+    }
+  }
+
   document.querySelectorAll('.pw-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const input = btn.parentElement.querySelector('input');
@@ -142,6 +372,28 @@
       btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
     });
   });
+
+  const boxes = document.querySelectorAll('#forgotStep2 .code-box');
+  const hidden = document.getElementById('codeValue');
+  boxes.forEach((box, idx) => {
+    box.addEventListener('input', () => {
+      box.value = box.value.replace(/\D/g, '');
+      hidden.value = Array.from(boxes).map(b => b.value).join('');
+      if (box.value && idx < boxes.length - 1) boxes[idx + 1].focus();
+    });
+    box.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !box.value && idx > 0) boxes[idx - 1].focus();
+    });
+    box.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+      boxes.forEach((b, i) => { b.value = text[i] || ''; });
+      hidden.value = Array.from(boxes).map(b => b.value).join('');
+      const firstEmpty = boxes.findIndex(b => !b.value);
+      if (firstEmpty >= 0) boxes[firstEmpty].focus();
+    });
+  });
+  boxes[0].focus();
 </script>
 </body>
 </html>

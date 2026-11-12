@@ -35,7 +35,7 @@ $hash = password_hash($pass, PASSWORD_DEFAULT);
 $stmt = $conn->prepare('INSERT INTO users (name, email, password) VALUES (?,?,?)');
 $stmt->bind_param('sss', $name, $email, $hash);
 if ($stmt->execute()) {
-    $_SESSION['user'] = ['id' => $stmt->insert_id, 'name' => $name, 'email' => $email];
+    $_SESSION['user'] = ['id' => $stmt->insert_id, 'name' => $name, 'email' => $email, 'role' => 'user'];
     $stmt->close();
     header('Location: dashboard.php'); exit;
 }

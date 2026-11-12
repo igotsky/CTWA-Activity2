@@ -13,12 +13,12 @@ if (!$email || !$pass) {
     header('Location: index.html?err=fill'); exit;
 }
 
-$stmt = $conn->prepare('SELECT id, name, password FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, name, email, password, role FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
-$stmt->bind_result($id, $name, $hash);
+$stmt->bind_result($id, $name, $email, $hash, $role);
 if ($stmt->fetch() && password_verify($pass, $hash)) {
-    $_SESSION['user'] = ['id' => $id, 'name' => $name, 'email' => $email];
+    $_SESSION['user'] = ['id' => $id, 'name' => $name, 'email' => $email, 'role' => $role];
     $stmt->close();
     header('Location: dashboard.php'); exit;
 }
